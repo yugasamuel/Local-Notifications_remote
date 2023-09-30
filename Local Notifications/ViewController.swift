@@ -57,8 +57,9 @@ class ViewController: UIViewController, UNUserNotificationCenterDelegate {
         center.delegate = self
 
         let show = UNNotificationAction(identifier: "show", title: "Tell me more…", options: .foreground)
-        let category = UNNotificationCategory(identifier: "alarm", actions: [show], intentIdentifiers: [])
-
+        let remind = UNNotificationAction(identifier: "remind", title: "Remind me later", options: .foreground)
+        let category = UNNotificationCategory(identifier: "alarm", actions: [show, remind], intentIdentifiers: [])
+        
         center.setNotificationCategories([category])
     }
     
@@ -79,7 +80,13 @@ class ViewController: UIViewController, UNUserNotificationCenterDelegate {
                 let ac = UIAlertController(title: "Show more info", message: nil, preferredStyle: .alert)
                 ac.addAction(UIAlertAction(title: "OK", style: .default))
                 present(ac, animated: true)
+            
+            case "remind":
+                let ac = UIAlertController(title: "Remind", message: nil, preferredStyle: .alert)
+                ac.addAction(UIAlertAction(title: "OK", style: .default))
+                present(ac, animated: true)
                 
+                scheduleLocal()
             default:
                 break
             }
